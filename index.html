@@ -94,11 +94,11 @@
         <section id="ayuda" class="help-section hidden">
             <h2>¿Necesitas Ayuda con tu Compra?</h2>
             <p>Déjanos tus datos y un operador de la tienda se comunicará contigo de inmediato para resolver cualquier problema.</p>
-            <form id="help-form" class="help-form">
-                <input type="text" id="help-name" placeholder="Tu Nombre" required>
-                <input type="tel" id="help-phone" placeholder="Número de Teléfono / WhatsApp" required>
-                <input type="email" id="help-email" placeholder="Correo Electrónico" required>
-                <textarea id="help-msg" placeholder="¿Cuál es tu consulta o problema?" required></textarea>
+            <form action="https://formspree.io/f/mlgqodwp" method="POST" id="help-form" class="help-form">
+                <input type="text" id="help-name" name="Nombre" placeholder="Tu Nombre" required>
+                <input type="tel" id="help-phone" name="Telefono" placeholder="Número de Teléfono / WhatsApp" required>
+                <input type="email" id="help-email" name="email" placeholder="Correo Electrónico" required>
+                <textarea id="help-msg" name="message" placeholder="¿Cuál es tu consulta o problema?" required></textarea>
                 <button type="submit" class="btn-primary">Enviar Consulta</button>
             </form>
         </section>

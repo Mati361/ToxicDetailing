@@ -190,7 +190,6 @@ function mostrarProductos(productos) {
         productsGrid.appendChild(card);
     });
 
-    // EVENTOS DE BOTONES
     document.querySelectorAll(".btn-view, .product-img-box").forEach(el => {
         el.addEventListener("click", (e) => {
             const id = e.currentTarget.getAttribute("data-id") || e.currentTarget.closest(".product-card").querySelector(".btn-view").getAttribute("data-id");
@@ -206,7 +205,6 @@ function mostrarProductos(productos) {
     });
 
     if (isAdmin) {
-        // Eliminar producto en tiempo real
         document.querySelectorAll(".delete-product-btn").forEach(btn => {
             btn.addEventListener("click", async (e) => {
                 const id = e.currentTarget.getAttribute("data-id");
@@ -219,7 +217,6 @@ function mostrarProductos(productos) {
             });
         });
 
-        // Editar producto
         document.querySelectorAll(".edit-product-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const id = e.currentTarget.getAttribute("data-id");
@@ -344,13 +341,40 @@ modalAddBtn.addEventListener("click", () => {
     }
 });
 
-// FORMULARIO DE AYUDA
-document.getElementById("help-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    Swal.fire('¡Consulta Enviada!', 'Un operador se estará comunicando contigo a la brevedad.', 'success');
-    e.target.reset();
-    helpSection.classList.add("hidden");
-});
+// FORMULARIO DE AYUDA (ENVÍO ASÍNCRONO A FORMSPREE SIN SALIR DE LA PÁGINA)
+const helpForm = document.getElementById("help-form");
+if (helpForm) {
+    helpForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(helpForm);
+        
+        try {
+            const response = await fetch(helpForm.action, {
+                method: helpForm.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                Swal.fire({
+                    title: '¡Mensaje enviado!',
+                    text: 'Un agente se pondrá en contacto contigo a la brevedad.',
+                    icon: 'success',
+                    confirmButtonColor: '#39ff14'
+                });
+                helpForm.reset();
+                helpSection.classList.add("hidden");
+            } else {
+                Swal.fire('Error', 'No se pudo enviar la consulta. Intenta nuevamente.', 'error');
+            }
+        } catch (error) {
+            Swal.fire('Error', 'Hubo un problema de conexión.', 'error');
+        }
+    });
+}
 
 // PANEL ADMIN (AGREGAR / EDITAR)
 adminTriggerBtn.addEventListener("click", () => {
@@ -375,13 +399,11 @@ addProductForm.addEventListener("submit", async (e) => {
     const guardarDatos = async (imagenUrl) => {
         try {
             if (idEdit) {
-                // Editar existente
                 const dataUpdate = { nombre, precio, descripcion };
                 if (imagenUrl) dataUpdate.imagen = imagenUrl;
                 await updateDoc(doc(db, "productos", idEdit), dataUpdate);
                 Swal.fire('¡Actualizado!', 'El producto fue modificado con éxito.', 'success');
             } else {
-                // Crear nuevo
                 await addDoc(collection(db, "productos"), {
                     nombre,
                     precio,
@@ -401,8 +423,8 @@ addProductForm.addEventListener("submit", async (e) => {
     if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.readAsDataURL(fileInput.files[0]);
-        reader.onload = function (e) { // <-- Agregamos el parámetro 'e' aquí
-            guardarDatos(e.target.result); // <-- Usamos 'e.target.result' en lugar de reader.target
+        reader.onload = function (e) {
+            guardarDatos(e.target.result);
         };
     } else {
         if (idEdit) {
@@ -411,7 +433,6 @@ addProductForm.addEventListener("submit", async (e) => {
             guardarDatos("https://i.ibb.co/3s32J3K/172333.jpg");
         }
     }
-    
 });
 
 // SCROLL INTELIGENTE Y DETENCIÓN DE MENÚ EN FOOTER
@@ -430,7 +451,6 @@ window.addEventListener("scroll", () => {
         floatingNav.classList.add("hidden");
     }
 
-    // Evitar que el menú flotante tape el contacto/footer fijándose arriba del mismo
     const contactRect = contactSection.getBoundingClientRect();
     if (contactRect.top <= window.innerHeight - 100) {
         floatingNav.classList.add("absolute");
