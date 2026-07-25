@@ -2,13 +2,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDaHjcGh8YN7hMfi6fIV1D0C5GD-vAsClI",
-  authDomain: "toxic-detailing.firebaseapp.com",
-  projectId: "toxic-detailing",
-  storageBucket: "toxic-detailing.firebasestorage.app",
-  messagingSenderId: "828681320008",
-  appId: "1:828681320008:web:ecc5a2774711528693ca7d",
-  measurementId: "G-R644C2J8JE"
+    apiKey: "AIzaSyDaHjcGh8YN7hMfi6fIV1D0C5GD-vAsClI",
+    authDomain: "toxic-detailing.firebaseapp.com",
+    projectId: "toxic-detailing",
+    storageBucket: "toxic-detailing.firebasestorage.app",
+    messagingSenderId: "828681320008",
+    appId: "1:828681320008:web:ecc5a2774711528693ca7d",
+    measurementId: "G-R644C2J8JE"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -59,7 +59,13 @@ if (usuarioActual) {
     if (rolActual === "admin") {
         isAdmin = true;
         adminTriggerBtn.classList.remove("hidden");
+    } else {
+        isAdmin = false;
+        adminTriggerBtn.classList.add("hidden");
     }
+} else {
+    isAdmin = false;
+    adminTriggerBtn.classList.add("hidden");
 }
 
 // Clic en Mi Cuenta
@@ -104,10 +110,13 @@ accountBtn.addEventListener("click", async (e) => {
         } else {
             usuarioActual = nombre;
             rolActual = "cliente";
+            isAdmin = false;
             localStorage.setItem("toxic_user", nombre);
             localStorage.setItem("toxic_rol", "cliente");
             accountText.textContent = nombre;
+            adminTriggerBtn.classList.add("hidden");
             Swal.fire('¡Bienvenido!', `Hola ${nombre}, ya puedes navegar y comprar sin problema.`, 'success');
+            cargarProductos();
         }
     }
 });
@@ -378,6 +387,7 @@ if (helpForm) {
 
 // PANEL ADMIN (AGREGAR / EDITAR)
 adminTriggerBtn.addEventListener("click", () => {
+    if (!isAdmin) return;
     editProductId.value = "";
     document.getElementById("new-name").value = "";
     document.getElementById("new-price").value = "";
@@ -390,6 +400,8 @@ closeAdmin.addEventListener("click", () => adminPanel.classList.add("hidden"));
 
 addProductForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (!isAdmin) return;
+    
     const idEdit = editProductId.value;
     const nombre = document.getElementById("new-name").value;
     const precio = Number(document.getElementById("new-price").value);

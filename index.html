@@ -14,16 +14,21 @@
     <!-- ENCABEZADO -->
     <header id="main-header">
         <div class="header-container">
+            <!-- Logo y Nombre de la marca -->
             <div class="logo-box">
                 <img src="https://i.ibb.co/pvZ1xm1j/Whats-App-Image-2026-07-24-at-12-09-48-PM.jpg" alt="Toxic Detailing Logo" class="brand-logo">
-                <span class="toxic-text">TOXIC</span> DETAILING
+                <span class="brand-title"><span class="toxic-text">TOXIC</span> DETAILING</span>
             </div>
-            <div class="search-bar">
+
+            <!-- Barra de búsqueda (Visible en PC, oculta en celular) -->
+            <div class="search-bar" id="desktop-search">
                 <input type="text" id="search-input" placeholder="Buscar productos por nombre...">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
+
+            <!-- Iconos de la cabecera (En celular solo queda Mi Cuenta) -->
             <div class="header-icons">
-                <a href="#" id="help-toggle-btn"><i class="fa-regular fa-comment"></i> <span class="icon-text">Ayuda</span></a>
+                <a href="#" id="help-toggle-btn" class="desktop-only-icon"><i class="fa-regular fa-comment"></i> <span class="icon-text">Ayuda</span></a>
                 <div class="account-dropdown-container">
                     <a href="#" id="account-btn"><i class="fa-regular fa-user"></i> <span id="account-text">Mi cuenta</span></a>
                     <!-- Menú desplegable para cerrar sesión -->
@@ -31,14 +36,18 @@
                         <button id="logout-btn" class="btn-logout">Salir del usuario</button>
                     </div>
                 </div>
-                <a href="#" id="cart-btn"><i class="fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span> <span class="icon-text">Carrito</span></a>
+                <a href="#" id="cart-btn" class="desktop-only-icon"><i class="fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span> <span class="icon-text">Carrito</span></a>
             </div>
         </div>
+
+        <!-- Subnavegación / Menú inferior adaptado para celular y PC -->
         <nav class="sub-nav">
             <a href="#inicio">Inicio</a>
             <a href="#productos">Productos</a>
-            <a href="#nosotros">Sobre Nosotros</a>
-            <a href="#contacto">Contacto</a>
+            <a href="#nosotros" class="desktop-only-link">Sobre Nosotros</a>
+            <a href="#contacto" class="desktop-only-link">Contacto</a>
+            <a href="#carrito" id="mobile-cart-link" class="mobile-only-link"><i class="fa-solid fa-cart-shopping"></i> Carrito (<span id="floating-cart-count">0</span>)</a>
+            <a href="#ayuda" id="mobile-help-btn" class="mobile-only-link"><i class="fa-regular fa-comment"></i> Ayuda</a>
         </nav>
     </header>
 
