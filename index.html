@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toxic Detailing - San Martín</title>
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/pvZ1xm1j/Whats-App-Image-2026-07-24-at-12-09-48-PM.jpg">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <!-- ENCABEZADO -->
+    <header id="main-header">
+        <div class="header-container">
+            <div class="logo-box">
+                <img src="https://i.ibb.co/pvZ1xm1j/Whats-App-Image-2026-07-24-at-12-09-48-PM.jpg" alt="Toxic Detailing Logo" class="brand-logo">
+                <span class="toxic-text">TOXIC</span> DETAILING
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Buscar productos por nombre...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="header-icons">
+                <a href="#" id="help-toggle-btn"><i class="fa-regular fa-comment"></i> <span class="icon-text">Ayuda</span></a>
+                <div class="account-dropdown-container">
+                    <a href="#" id="account-btn"><i class="fa-regular fa-user"></i> <span id="account-text">Mi cuenta</span></a>
+                    <!-- Menú desplegable para cerrar sesión -->
+                    <div id="account-menu" class="account-menu hidden">
+                        <button id="logout-btn" class="btn-logout">Salir del usuario</button>
+                    </div>
+                </div>
+                <a href="#" id="cart-btn"><i class="fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span> <span class="icon-text">Carrito</span></a>
+            </div>
+        </div>
+        <nav class="sub-nav">
+            <a href="#inicio">Inicio</a>
+            <a href="#productos">Productos</a>
+            <a href="#nosotros">Sobre Nosotros</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- MENÚ FLOTANTE SCROLL -->
+    <div id="floating-nav" class="floating-nav hidden">
+        <a href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a>
+        <a href="#productos"><i class="fa-solid fa-box"></i> Productos</a>
+        <a href="#" id="floating-help-btn"><i class="fa-solid fa-headset"></i> Ayuda</a>
+        <a href="#" id="floating-cart"><i class="fa-solid fa-cart-shopping"></i> (<span id="floating-cart-count">0</span>)</a>
+    </div>
+
+    <!-- PANEL DE ADMINISTRADOR (Modal para Agregar / Editar) -->
+    <div id="admin-panel" class="admin-panel hidden">
+        <div class="admin-box">
+            <h3 id="admin-modal-title">Panel de Administrador 🛠️</h3>
+            <form id="add-product-form">
+                <input type="hidden" id="edit-product-id">
+                <input type="text" id="new-name" placeholder="Nombre del producto" required>
+                <input type="number" id="new-price" placeholder="Precio ($)" required>
+                <textarea id="new-desc" placeholder="Descripción breve" required></textarea>
+                <input type="file" id="new-img-file" accept="image/*">
+                <button type="submit" class="btn-primary" id="admin-submit-btn">Guardar Producto</button>
+            </form>
+            <button id="close-admin" class="btn-danger">Cerrar Panel</button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <section id="inicio" class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>BRILLO EXTREMO Y PROTECCIÓN TOTAL</h1>
+                <p>Insumos profesionales de detailing en San Martín.</p>
+            </div>
+        </section>
+
+        <section id="nosotros" class="about-section">
+            <h2>Sobre Nosotros</h2>
+            <p>En <strong>Toxic Detailing San Martín</strong> nos apasiona el cuidado automotriz. Ofrecemos los mejores productos del mercado para que tu vehículo luzca impecable todos los días.</p>
+        </section>
+
+        <!-- GRILLA DE PRODUCTOS -->
+        <section id="productos" class="products-section">
+            <div class="section-title-bar">
+                <h2>Productos Destacados</h2>
+                <button id="admin-trigger-btn" class="hidden btn-admin-shortcut">➕ Agregar Producto</button>
+            </div>
+            <div id="products-grid" class="products-grid"></div>
+        </section>
+
+        <!-- SECCIÓN AYUDA / SOPORTE (Oculta por defecto hasta que el usuario hace click) -->
+        <section id="ayuda" class="help-section hidden">
+            <h2>¿Necesitas Ayuda con tu Compra?</h2>
+            <p>Déjanos tus datos y un operador de la tienda se comunicará contigo de inmediato para resolver cualquier problema.</p>
+            <form id="help-form" class="help-form">
+                <input type="text" id="help-name" placeholder="Tu Nombre" required>
+                <input type="tel" id="help-phone" placeholder="Número de Teléfono / WhatsApp" required>
+                <input type="email" id="help-email" placeholder="Correo Electrónico" required>
+                <textarea id="help-msg" placeholder="¿Cuál es tu consulta o problema?" required></textarea>
+                <button type="submit" class="btn-primary">Enviar Consulta</button>
+            </form>
+        </section>
+
+        <!-- SECCIÓN CONTACTO Y REDES -->
+        <section id="contacto" class="contact-section">
+            <h2>Contacto & Redes Sociales</h2>
+            <p>San Martín, Buenos Aires, Argentina</p>
+            <div class="social-icons">
+                <a href="https://wa.me/5491134984283" target="_blank" class="social-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://instagram.com" target="_blank" class="social-ig"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                <a href="https://facebook.com" target="_blank" class="social-fb"><i class="fa-brands fa-facebook"></i> Facebook</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE DETALLE -->
+    <div id="product-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-img-container">
+                    <img id="modal-img" src="" alt="Producto">
+                </div>
+                <div class="modal-info">
+                    <h3 id="modal-title"></h3>
+                    <p id="modal-price" class="modal-price"></p>
+                    <p id="modal-desc"></p>
+                    <button id="modal-add-btn" class="btn-primary">AGREGAR AL CARRITO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARRITO LATERAL -->
+    <div id="cart-sidebar" class="cart-sidebar hidden">
+        <div class="cart-header">
+            <h3>Carrito de Compras</h3>
+            <span id="close-cart" class="close-cart">&times;</span>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0,00</span>
+            </div>
+            <button id="empty-cart-btn" class="btn-secondary">VACIAR CARRITO</button>
+            <button id="checkout-btn" class="btn-checkout">FINALIZAR COMPRA POR WHATSAPP</button>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
