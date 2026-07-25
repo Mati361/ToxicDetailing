@@ -270,7 +270,11 @@ function agregarAlCarrito(id) {
 function actualizarCarrito() {
     const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
     cartCount.textContent = totalItems;
-    floatingCartCount.textContent = totalItems;
+    
+    // Actualiza todos los elementos con la clase o ID de contadores flotantes del carrito
+    document.querySelectorAll("#floating-cart-count").forEach(el => {
+        el.textContent = totalItems;
+    });
 
     cartItemsContainer.innerHTML = "";
     let total = 0;
@@ -292,11 +296,22 @@ function actualizarCarrito() {
 }
 
 [cartBtn, floatingCart].forEach(btn => {
-    btn.addEventListener("click", (e) => {
+    if(btn) {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            cartSidebar.classList.remove("hidden");
+        });
+    }
+});
+
+// También enlazar el enlace del carrito móvil si existe
+const mobileCartLink = document.getElementById("mobile-cart-link");
+if(mobileCartLink) {
+    mobileCartLink.addEventListener("click", (e) => {
         e.preventDefault();
         cartSidebar.classList.remove("hidden");
     });
-});
+}
 
 closeCart.addEventListener("click", () => cartSidebar.classList.add("hidden"));
 
@@ -342,7 +357,9 @@ function abrirModal(id, productos) {
     modal.classList.remove("hidden");
 }
 
-closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+if(closeModal) {
+    closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+}
 modalAddBtn.addEventListener("click", () => {
     if (productoSeleccionado) {
         agregarAlCarrito(productoSeleccionado.id);
@@ -456,18 +473,20 @@ window.addEventListener("scroll", () => {
     const scrollActual = window.pageYOffset;
     
     if (scrollActual > 150) {
-        header.classList.add("hidden");
-        floatingNav.classList.remove("hidden");
+        if(header) header.classList.add("hidden");
+        if(floatingNav) floatingNav.classList.remove("hidden");
     } else {
-        header.classList.remove("hidden");
-        floatingNav.classList.add("hidden");
+        if(header) header.classList.remove("hidden");
+        if(floatingNav) floatingNav.classList.add("hidden");
     }
 
-    const contactRect = contactSection.getBoundingClientRect();
-    if (contactRect.top <= window.innerHeight - 100) {
-        floatingNav.classList.add("absolute");
-    } else {
-        floatingNav.classList.remove("absolute");
+    if(contactSection && floatingNav) {
+        const contactRect = contactSection.getBoundingClientRect();
+        if (contactRect.top <= window.innerHeight - 100) {
+            floatingNav.classList.add("absolute");
+        } else {
+            floatingNav.classList.remove("absolute");
+        }
     }
 });
 
